@@ -1,0 +1,30 @@
+version: '3'
+services:
+  go-dns-service:
+    build:
+      context: .
+      dockerfile: go-dns-service/Dockerfile
+    networks:
+      custom_network:
+        ipv4_address: 10.88.20.4
+  mgmt-rest-api:
+    build:
+      context: .
+      dockerfile: mgmt-rest-api/Dockerfile
+    # volumes:
+    #   - ./mgmt-rest-api/api.yml:/app/api.yml
+    networks:
+      custom_network:
+        ipv4_address: 10.88.20.3
+  redis-container:
+    build:
+      context: .
+      dockerfile: redis-container/Dockerfile
+    volumes:
+      - ./redis-container/redis.conf:/etc/redis/redis.conf
+    networks:
+      custom_network:
+        ipv4_address: 10.88.20.2
+networks:
+  custom_network:
+    driver: bridge
